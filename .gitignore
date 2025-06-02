@@ -1,0 +1,53 @@
+# === Java ===
+*.class
+*.jar
+*.war
+*.ear
+
+# === Logs ===
+*.log
+
+# === Compiled class files ===
+/target/
+**/target/
+
+# === Maven ===
+/.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+
+# === IDEs ===
+# IntelliJ
+.idea/
+*.iml
+# Eclipse
+.settings/
+.project
+.classpath
+# VSCode
+.vscode/
+
+# === OS-generated files ===
+.DS_Store
+Thumbs.db
+
+# === Temporary files ===
+*.tmp
+*.bak
+*.swp
+
+# === Spring Boot properties (ajustado a entornos locales) ===
+application.properties
+application.yml
+application-local.properties
+
+# === Test output ===
+/test-output/
+
+# === Reports ===
+/surefire-reports/
+/jacoco.exec
+
+# === Others ===
+dependency-reduced-pom.xml
