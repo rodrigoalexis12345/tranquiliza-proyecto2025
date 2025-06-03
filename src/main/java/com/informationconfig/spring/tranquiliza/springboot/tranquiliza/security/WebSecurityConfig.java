@@ -10,31 +10,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class WebSecurityConfig {
 
-    // Define el bean de BCryptPasswordEncoder
+    // ✅ Define el bean específicamente como BCryptPasswordEncoder
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();  // Spring creará este bean cuando sea necesario
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // Configuración de las rutas permitidas sin autenticación usando la nueva sintaxis
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                     .requestMatchers("/", "/home", "/css/**", "/js/**", "/img/**", "/resources/**", "/mdbootstrap/**", "/login", "/register")
-                    .permitAll()  // Permitir acceso sin autenticación a estas rutas
-                    .anyRequest().authenticated()  // Requiere autenticación para el resto de las rutas
+                    .permitAll()
+                    .anyRequest().authenticated()
             )
             .formLogin(formLogin ->
                 formLogin
-                    .loginPage("/login")  // Página personalizada para el login
-                    .permitAll()  // Permitir el acceso al formulario de login sin autenticación
+                    .loginPage("/login")
+                    .permitAll()
             )
             .logout(logout ->
-                logout.permitAll()  // Permitir el acceso al logout sin autenticación
+                logout.permitAll()
             );
 
-        return http.build();  // Crear y devolver el filtro de seguridad
+        return http.build();
     }
 }

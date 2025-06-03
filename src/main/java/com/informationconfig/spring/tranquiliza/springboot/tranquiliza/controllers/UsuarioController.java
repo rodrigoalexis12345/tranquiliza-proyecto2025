@@ -3,7 +3,7 @@ package com.informationconfig.spring.tranquiliza.springboot.tranquiliza.controll
 import com.informationconfig.spring.tranquiliza.springboot.tranquiliza.models.Usuario;
 import com.informationconfig.spring.tranquiliza.springboot.tranquiliza.services.UsuarioService;
 
-import java.util.Optional;s
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
