@@ -1,22 +1,35 @@
 package com.informationconfig.spring.tranquiliza.springboot.tranquiliza.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
+/**
+ * Entidad Usuario.
+ * Representa un registro de usuario en la base de datos.
+ */
 @Entity
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private String nombre;
+
+    // Si quieres almacenar nombre completo, agrégalo aquí:
+    // @NotBlank(message = "El nombre es obligatorio")
+    // private String nombre;
+
+    @NotBlank(message = "El correo es obligatorio")
+    @Email(message = "Correo inválido")
+    @Column(unique = true) // Evita duplicados a nivel BD
     private String correo;
-    private String contraseña;  // Asegúrate de guardar la contraseña encriptada, por ejemplo, usando BCrypt
-    
-    // Getters y setters
+
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
+    private String contrasena;
+
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -25,13 +38,14 @@ public class Usuario {
         this.id = id;
     }
 
+    /*
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    */
 
     public String getCorreo() {
         return correo;
@@ -41,12 +55,11 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 }
-

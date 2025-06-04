@@ -37,11 +37,6 @@ Thumbs.db
 *.bak
 *.swp
 
-# === Spring Boot properties (ajustado a entornos locales) ===
-application.properties
-application.yml
-application-local.properties
-
 # === Test output ===
 /test-output/
 
