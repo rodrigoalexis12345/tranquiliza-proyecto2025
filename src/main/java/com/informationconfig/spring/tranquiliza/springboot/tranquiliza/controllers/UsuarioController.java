@@ -10,23 +10,25 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+//@RequestMapping("/usuario")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
     @Controller
-public class LoginController {
+    public class LoginController {
 
-    @GetMapping("/ingresar")
-    public String mostrarLogin() {
-        // Devuelve el nombre del archivo HTML Thymeleaf (sin extensión)
-        return "login";
+        @GetMapping("/ingresar")
+        public String mostrarLogin() {
+            // Devuelve el nombre del archivo HTML Thymeleaf (sin extensión)
+            return "login";
+        }
     }
-}
 
     @GetMapping("/login")
     public String mostrarLogin(@RequestParam(value = "error", required = false) String error, Model model) {
@@ -41,13 +43,17 @@ public class LoginController {
         model.addAttribute("usuario", new Usuario());
         return "register";
     }
+    
+   /*  @GetMapping("/ver_curso")
+    public String mostrarCurso() {
+        return "redirect:/curso"; // curso.html debe estar en /templates
+    }*/
 
     @PostMapping("/do-register")
     public String registrarUsuario(
-        @Valid @ModelAttribute("usuario") Usuario usuario,
-        BindingResult bindingResult,
-        Model model
-    ) {
+            @Valid @ModelAttribute("usuario") Usuario usuario,
+            BindingResult bindingResult,
+            Model model) {
         if (bindingResult.hasErrors()) {
             return "register";
         }

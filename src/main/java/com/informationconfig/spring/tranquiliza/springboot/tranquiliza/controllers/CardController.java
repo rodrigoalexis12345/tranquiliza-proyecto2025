@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.informationconfig.spring.tranquiliza.springboot.tranquiliza.models.Cards;
 import com.informationconfig.spring.tranquiliza.springboot.tranquiliza.repository.CardRepository;
@@ -12,6 +13,7 @@ import com.informationconfig.spring.tranquiliza.springboot.tranquiliza.repositor
 import java.util.List;
 
 @Controller
+//@RequestMapping("/card")
 public class CardController {
 
     @Autowired
