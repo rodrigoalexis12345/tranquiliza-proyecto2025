@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reels - Tranquiliza</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos mejorados para el encabezado */
+        .header {
+            background: linear-gradient(135deg, rgb(13 110 253) 0%, #7c3aed 100%);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .nav-horizontal {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .nav-horizontal a {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            padding: 1rem 0.75rem;
+            position: relative;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            letter-spacing: 0.025em;
+        }
+        
+        .nav-horizontal a:hover {
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .nav-horizontal a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0.75rem;
+            left: 0.75rem;
+            width: calc(100% - 1.5rem);
+            height: 2px;
+            background-color: white;
+            transform: scaleX(1);
+            transform-origin: bottom center;
+        }
+        
+        .nav-horizontal .active {
+            color: white;
+            font-weight: 600;
+        }
+        
+        .nav-horizontal .active::after {
+            content: '';
+            position: absolute;
+            bottom: 0.75rem;
+            left: 0.75rem;
+            width: calc(100% - 1.5rem);
+            height: 2px;
+            background-color: white;
+        }
+        
+        .login-btn {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 9999px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .login-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Efecto de logo */
+        .brand-logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.025em;
+            background: linear-gradient(to right, white, #e0e7ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .brand-logo:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Menú vertical mejorado */
+        .nav-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-item {
+            padding: 0.75rem 1rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            border-radius: 0.375rem;
+            margin: 0 0.25rem;
+        }
+        
+        .nav-item:hover {
+            background-color: #f3f4f6;
+            border-left-color: rgb(13 110 253);
+            transform: translateX(2px);
+        }
+        
+        .nav-item.active {
+            background-color: #eef2ff;
+            border-left-color: rgb(13 110 253);
+            color: rgb(13 110 253);
+            font-weight: 500;
+        }
+        
+        /* Contenedor principal de reels */
+        .shorts-container {
+            width: 100%;
+            max-width: 500px;
+            height: calc(100vh - 60px);
+            margin: 0 auto;
+            position: relative;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            background-color: #000;
+        }
+        
+        /* Ocultar scrollbar pero permitir scroll */
+        .shorts-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Cada item de reel */
+        .short-item {
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        
+        /* Video dentro del reel */
+        .short-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        /* Controles inferiores */
+        .short-controls {
+            position: relative;
+            z-index: 10;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Barra de progreso */
+        .progress-container {
+            width: 100%;
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 16px;
+            border-radius: 3px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: white;
+            border-radius: 3px;
+            width: 0%;
+        }
+        
+        /* Contenido del reel */
+        .short-content {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+        }
+        
+        /* Lado izquierdo (descripción) */
+        .short-info {
+            flex: 1;
+            padding-right: 16px;
+        }
+        
+        .short-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        .short-stats {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+        
+        .short-description {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+        
+        /* Lado derecho (acciones) */
+        .short-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .action-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+        
+        .action-count {
+            font-size: 12px;
+        }
+        
+        /* Barra superior */
+        .short-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 16px;
+        }
+        
+        .short-close {
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        /* Efectos de hover */
+        .action-button:hover .action-icon {
+            transform: scale(1.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .nav-horizontal {
+                gap: 0.5rem;
+            }
+            
+            .nav-horizontal a {
+                padding: 1rem 0.5rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .shorts-container {
+                max-width: 100%;
+            }
+            
+            .short-content {
+                padding: 12px;
+            }
+            
+            .action-icon {
+                width: 36px;
+                height: 36px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Encabezado mejorado -->
+    <header class="header text-white">
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-6 sm:space-x-8">
+                <a href="#" class="brand-logo">Tranquiliza</a>
+                <nav class="nav-horizontal hidden md:flex">
+                    <a class="nav-link active" th:href="@{/}">Inicio</a>
+                    <a class="nav-link" th:href="@{/reuniones}">Reuniones</a>
+                    <a class="nav-link" th:href="@{/audiolibros}">Audiolibros</a>
+                    <a class="nav-link" th:href="@{/curso}">Curso</a>
+                    <a class="nav-link" th:href="@{/juegos}">Juegos</a>
+                    <a class="nav-link" th:href="@{/progreso}">Progreso</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="/register" class="hidden sm:inline-block text-sm font-medium hover:text-white transition">Registrarse</a>
+                <a href="/login" class="login-btn flex items-center space-x-1">
+                    <span>INGRESAR</span>
+                    <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+                <button class="md:hidden p-2 rounded-md hover:bg-white/10 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenedor principal -->
+    <div class="container mx-auto flex">
+        <!-- Menú Vertical -->
+        <nav class="w-16 md:w-64 bg-white shadow-sm p-2 md:p-4 hidden md:block">
+            <div class="nav-vertical">
+                <a href="#" class="nav-item active flex items-center space-x-2">
+                    <i class="fas fa-home w-5 text-center"></i>
+                    <span class="hidden md:inline">Home</span>
+                </a>
+                <a href="#" class="nav-item flex items-center space-x-2">
+                    <i class="fas fa-chart-line w-5 text-center"></i>
+                    <span class="hidden md:inline">Progreso</span>
+                </a>
+                <a href="#" class="nav-item flex items-center space-x-2">
+                    <i class="fas fa-star w-5 text-center"></i>
+                    <span class="hidden md:inline">Calificación</span>
+                </a>
+                <a href="#" class="nav-item flex items-center space-x-2">
+                    <i class="fas fa-envelope w-5 text-center"></i>
+                    <span class="hidden md:inline">Contacto</span>
+                </a>
+                <a href="#" class="nav-item flex items-center space-x-2">
+                    <i class="fas fa-book w-5 text-center"></i>
+                    <span class="hidden md:inline">Cursos</span>
+                </a>
+            </div>
+        </nav>
+
+<!-- Contenido principal con menú vertical -->
+    <div class="container mx-auto p-4 sm:p-6 flex flex-col md:flex-row">
+        <!-- Menú Vertical (se mantiene igual) -->
+        <nav class="w-full md:w-64 bg-white rounded-lg shadow-sm p-4 mb-4 md:mb-0 md:mr-6">
+            <!-- ... tu menú vertical actual ... -->
+        </nav>
+
+        <!-- Contenedor de Shorts -->
+        <main class="flex-1">
+            <div class="shorts-container" id="shortsContainer">
+                <!-- Short 1 -->
+                <div class="short-item">
+                    <video class="short-video" loop>
+                        <source src="/img/reel1.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    
+                    <div class="short-header">
+                        <div class="short-close">
+                            <i class="fas fa-arrow-down text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="short-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress1"></div>
+                        </div>
+                        
+                        <div class="short-content">
+                            <div class="short-info">
+                                <h3 class="short-title">Meditación guiada para reducir el estrés</h3>
+                                <div class="short-stats">
+                                    <span>302.9K vistas</span>
+                                </div>
+                                <p class="short-description">
+                                    Tómate 5 minutos para relajarte con esta meditación guiada. Perfecta para momentos de estrés.
+                                </p>
+                            </div>
+                            
+                            <div class="short-actions">
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-heart text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">302.9K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comment-dots text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">612</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-bookmark text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">33K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-share text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">22.7K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Short 2 -->
+                <div class="short-item">
+                    <video class="short-video" loop>
+                        <source src="/img/reel2.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    
+                    <div class="short-header">
+                        <div class="short-close">
+                            <i class="fas fa-arrow-down text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="short-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress2"></div>
+                        </div>
+                        
+                        <div class="short-content">
+                            <div class="short-info">
+                                <h3 class="short-title">Ejercicios de respiración para la ansiedad</h3>
+                                <div class="short-stats">
+                                    <span>189.4K vistas</span>
+                                </div>
+                                <p class="short-description">
+                                    Aprende esta técnica simple de respiración para calmar la ansiedad en momentos difíciles.
+                                </p>
+                            </div>
+                            
+                            <div class="short-actions">
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-heart text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">189.4K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comment-dots text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">421</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-bookmark text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">18K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-share text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">15.2K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Short 3 -->
+                <div class="short-item">
+                    <video class="short-video" loop>
+                        <source src="/img/reel3.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    
+                    <div class="short-header">
+                        <div class="short-close">
+                            <i class="fas fa-arrow-down text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="short-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress3"></div>
+                        </div>
+                        
+                        <div class="short-content">
+                            <div class="short-info">
+                                <h3 class="short-title">Rutina de yoga matutina</h3>
+                                <div class="short-stats">
+                                    <span>245.7K vistas</span>
+                                </div>
+                                <p class="short-description">
+                                    Comienza tu día con esta rutina de yoga de 5 minutos para energizar tu cuerpo y mente.
+                                </p>
+                            </div>
+                            
+                            <div class="short-actions">
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-heart text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">245.7K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comment-dots text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">532</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-bookmark text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">27K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-share text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">19.8K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Short 4 -->
+                <div class="short-item">
+                    <video class="short-video" loop>
+                        <source src="/img/reel4.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    
+                    <div class="short-header">
+                        <div class="short-close">
+                            <i class="fas fa-arrow-down text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="short-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress4"></div>
+                        </div>
+                        
+                        <div class="short-content">
+                            <div class="short-info">
+                                <h3 class="short-title">Música relajante para concentrarse</h3>
+                                <div class="short-stats">
+                                    <span>178.3K vistas</span>
+                                </div>
+                                <p class="short-description">
+                                    Disfruta de estos sonidos relajantes para mejorar tu concentración y reducir el estrés.
+                                </p>
+                            </div>
+                            
+                            <div class="short-actions">
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-heart text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">178.3K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comment-dots text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">387</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-bookmark text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">15K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-share text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">14.1K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Short 5 -->
+                <div class="short-item">
+                    <video class="short-video" loop>
+                        <source src="/img/reel5.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    
+                    <div class="short-header">
+                        <div class="short-close">
+                            <i class="fas fa-arrow-down text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="short-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress5"></div>
+                        </div>
+                        
+                        <div class="short-content">
+                            <div class="short-info">
+                                <h3 class="short-title">Escritura terapéutica para organizar pensamientos</h3>
+                                <div class="short-stats">
+                                    <span>156.2K vistas</span>
+                                </div>
+                                <p class="short-description">
+                                    Cómo usar la escritura como herramienta para manejar el estrés y la ansiedad.
+                                </p>
+                            </div>
+                            
+                            <div class="short-actions">
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-heart text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">156.2K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comment-dots text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">342</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-bookmark text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">12K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-share text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">11.5K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const shortsContainer = document.getElementById('shortsContainer');
+            const videos = document.querySelectorAll('.short-video');
+            const progressFills = document.querySelectorAll('.progress-fill');
+            
+            let currentShortIndex = 0;
+            let isScrolling = false;
+            let progressIntervals = [];
+            
+            // Función para actualizar la barra de progreso
+            function updateProgressBar(video, progressFill) {
+                if (progressIntervals[progressFill.id]) {
+                    clearInterval(progressIntervals[progressFill.id]);
+                }
+                
+                progressIntervals[progressFill.id] = setInterval(() => {
+                    const percent = (video.currentTime / video.duration) * 100;
+                    progressFill.style.width = `${percent}%`;
+                }, 100);
+            }
+            
+            // Función para manejar el cambio de shorts
+            function handleShortChange(newIndex) {
+                if (newIndex < 0 || newIndex >= videos.length) return;
+                
+                // Pausar el video actual y reiniciar su barra de progreso
+                videos[currentShortIndex].pause();
+                progressFills[currentShortIndex].style.width = '0%';
+                if (progressIntervals[progressFills[currentShortIndex].id]) {
+                    clearInterval(progressIntervals[progressFills[currentShortIndex].id]);
+                }
+                
+                // Actualizar el índice
+                currentShortIndex = newIndex;
+                
+                // Reproducir el nuevo video y comenzar su barra de progreso
+                videos[currentShortIndex].currentTime = 0;
+                videos[currentShortIndex].play().catch(e => console.log(e));
+                updateProgressBar(videos[currentShortIndex], progressFills[currentShortIndex]);
+            }
+            
+            // Configurar IntersectionObserver para detectar el short visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !isScrolling) {
+                        const newIndex = Array.from(document.querySelectorAll('.short-item')).indexOf(entry.target);
+                        handleShortChange(newIndex);
+                    }
+                });
+            }, {
+                threshold: 0.8 // 80% del short debe ser visible
+            });
+            
+            // Observar cada short
+            document.querySelectorAll('.short-item').forEach(short => {
+                observer.observe(short);
+            });
+            
+            // Manejar el scroll con rueda del mouse
+            shortsContainer.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                
+                isScrolling = true;
+                
+                // Determinar dirección del scroll
+                const delta = Math.sign(e.deltaY);
+                const newIndex = currentShortIndex + delta;
+                
+                // Limitar el índice entre 0 y el número total de shorts
+                const clampedIndex = Math.max(0, Math.min(newIndex, videos.length - 1));
+                
+                // Desplazar al short correspondiente
+                document.querySelectorAll('.short-item')[clampedIndex].scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Resetear flag después de la animación
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 1000);
+            });
+            
+            // Configurar eventos de clic en los videos
+            videos.forEach((video, index) => {
+                video.addEventListener('click', () => {
+                    if (video.paused) {
+                        video.play();
+                        updateProgressBar(video, progressFills[index]);
+                    } else {
+                        video.pause();
+                        if (progressIntervals[progressFills[index].id]) {
+                            clearInterval(progressIntervals[progressFills[index].id]);
+                        }
+                    }
+                });
+                
+                // Reiniciar la barra de progreso cuando el video termina
+                video.addEventListener('ended', () => {
+                    progressFills[index].style.width = '0%';
+                    video.currentTime = 0;
+                    video.play();
+                    updateProgressBar(video, progressFills[index]);
+                });
+            });
+            
+            // Reproducir el primer video al cargar
+            if (videos.length > 0) {
+                videos[0].play().catch(e => console.log(e));
+                updateProgressBar(videos[0], progressFills[0]);
+            }
+            
+            // Configurar botones de acción
+            document.querySelectorAll('.action-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Evitar que el clic llegue al video
+                    const icon = button.querySelector('i');
+                    
+                    // Efecto visual al hacer clic
+                    button.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        button.style.transform = '';
+                    }, 200);
+                    
+                    // Cambiar icono de like si es el botón de corazón
+                    if (icon.classList.contains('fa-heart')) {
+                        if (icon.classList.contains('text-red-500')) {
+                            icon.classList.remove('text-red-500');
+                        } else {
+                            icon.classList.add('text-red-500');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
