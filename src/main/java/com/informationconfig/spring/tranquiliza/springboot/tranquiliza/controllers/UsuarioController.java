@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -66,4 +67,17 @@ public class UsuarioController {
             return "register";
         }
     }
+    @GetMapping("/usuarios")
+    public String mostrarFormulario(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuarios", usuarioService.listarUsuarios()); // <-- LISTADO
+        return "usuarios";
+    }
+
+    @PostMapping("/guardar")
+    public String guardar(@ModelAttribute Usuario usuario) {
+        usuarioService.guardarUsuario(usuario);
+        return "redirect:/usuarios"; // <-- IMPORTANTE
+    }
+
 }
