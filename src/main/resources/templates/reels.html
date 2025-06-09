@@ -125,111 +125,157 @@
             font-weight: 500;
         }
         
-        /* Estadísticas verticales */
-        .reel-stats {
-            position: absolute;
-            right: 2rem;
-            bottom: 6rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-            z-index: 10;
-        }
-        
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .stat-icon {
-            font-size: 1.5rem;
-            color: white;
-            margin-bottom: 0.25rem;
-            cursor: pointer;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        .stat-count {
-            font-size: 0.8rem;
-            color: white;
-            font-weight: 500;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-        
-        /* Estilos para el reproductor de Reels */
-        .reels-container {
+        /* Contenedor principal de reels */
+        .shorts-container {
+            width: 100%;
+            max-width: 500px;
             height: calc(100vh - 60px);
+            margin: 0 auto;
+            position: relative;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
-            position: relative;
             background-color: #000;
         }
         
-        .reels-container::-webkit-scrollbar {
+        /* Ocultar scrollbar pero permitir scroll */
+        .shorts-container::-webkit-scrollbar {
             display: none;
         }
         
-        .reel {
-            height: calc(100vh - 60px);
+        /* Cada item de reel */
+        .short-item {
+            width: 100%;
+            height: 100%;
             scroll-snap-align: start;
             position: relative;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            justify-content: flex-end;
         }
         
-        .reel-video {
-            height: 100%;
+        /* Video dentro del reel */
+        .short-video {
             width: 100%;
-            max-width: 400px;
-            object-fit: contain;
-            background-color: #000;
-        }
-        
-        .reel-info {
+            height: 100%;
+            object-fit: cover;
             position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            right: 5rem;
-            color: white;
+            top: 0;
+            left: 0;
+        }
+        
+        /* Controles inferiores */
+        .short-controls {
+            position: relative;
             z-index: 10;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
         }
         
-        .reel-user {
+        /* Barra de progreso */
+        .progress-container {
+            width: 100%;
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 16px;
+            border-radius: 3px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: white;
+            border-radius: 3px;
+            width: 0%;
+        }
+        
+        /* Contenido del reel */
+        .short-content {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+        }
+        
+        /* Lado izquierdo (descripción) */
+        .short-info {
+            flex: 1;
+            padding-right: 16px;
+        }
+        
+        .short-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        .short-stats {
             display: flex;
             align-items: center;
-            margin-bottom: 0.5rem;
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 12px;
         }
         
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.2);
+        .short-description {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+        
+        /* Lado derecho (acciones) */
+        .short-actions {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .action-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            margin-right: 0.5rem;
+            margin-bottom: 4px;
         }
         
-        .reel-caption {
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        .action-count {
+            font-size: 12px;
         }
         
-        .reel-music {
+        /* Barra superior */
+        .short-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 16px;
+        }
+        
+        .short-close {
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.9);
+            justify-content: center;
+            cursor: pointer;
         }
         
-        .music-note {
-            margin-right: 0.5rem;
+        /* Efectos de hover */
+        .action-button:hover .action-icon {
+            transform: scale(1.1);
         }
         
         /* Responsive */
@@ -245,17 +291,17 @@
         }
         
         @media (max-width: 640px) {
-            .reel-video {
+            .shorts-container {
                 max-width: 100%;
             }
             
-            .reel-stats {
-                right: 1rem;
-                bottom: 5rem;
+            .short-content {
+                padding: 12px;
             }
             
-            .reel-info {
-                right: 4rem;
+            .action-icon {
+                width: 36px;
+                height: 36px;
             }
         }
     </style>
@@ -318,268 +364,403 @@
             </div>
         </nav>
 
-        <!-- Contenedor de Reels -->
-        <div class="reels-container" id="reelsContainer">
-            <!-- Reel 1 -->
-            <div class="reel">
-                <video class="reel-video" loop muted playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-meditating-under-a-waterfall-17639-large.mp4" type="video/mp4">
-                    Tu navegador no soporta el elemento de video.
-                </video>
-                
-                <div class="reel-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-heart stat-icon"></i>
-                        <span class="stat-count">302.9K</span>
+<!-- Contenido principal con menú vertical -->
+    <div class="container mx-auto p-4 sm:p-6 flex flex-col md:flex-row">
+        <!-- Menú Vertical (se mantiene igual) -->
+        <nav class="w-full md:w-64 bg-white rounded-lg shadow-sm p-4 mb-4 md:mb-0 md:mr-6">
+            <!-- ... tu menú vertical actual ... -->
+        </nav>
+
+        <!-- Contenedor de Shorts -->
+        <main class="flex-1">
+            <div class="shorts-container" id="shortsContainer">
+                <!-- Short 1 -->
+                <div class="short-item">
+                    <video class="short-video" loop>
+                        <source src="/img/reel1.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    
+                    <div class="short-header">
+                        <div class="short-close">
+                            <i class="fas fa-arrow-down text-white"></i>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <i class="fas fa-comment-dots stat-icon"></i>
-                        <span class="stat-count">612</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-bookmark stat-icon"></i>
-                        <span class="stat-count">33K</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-share stat-icon"></i>
-                        <span class="stat-count">22.7K</span>
+                    
+                    <div class="short-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress1"></div>
+                        </div>
+                        
+                        <div class="short-content">
+                            <div class="short-info">
+                                <h3 class="short-title">Meditación guiada para reducir el estrés</h3>
+                                <div class="short-stats">
+                                    <span>302.9K vistas</span>
+                                </div>
+                                <p class="short-description">
+                                    Tómate 5 minutos para relajarte con esta meditación guiada. Perfecta para momentos de estrés.
+                                </p>
+                            </div>
+                            
+                            <div class="short-actions">
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-heart text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">302.9K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comment-dots text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">612</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-bookmark text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">33K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-share text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">22.7K</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="reel-info">
-                    <div class="reel-user">
-                        <div class="user-avatar">
-                            <i class="fas fa-user"></i>
+                <!-- Short 2 -->
+                <div class="short-item">
+                    <video class="short-video" loop>
+                        <source src="/img/reel2.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    
+                    <div class="short-header">
+                        <div class="short-close">
+                            <i class="fas fa-arrow-down text-white"></i>
                         </div>
-                        <span>@tranquiliza</span>
                     </div>
-                    <p class="reel-caption">Meditación guiada para reducir el estrés en 5 minutos</p>
-                    <div class="reel-music">
-                        <i class="fas fa-music music-note"></i>
-                        <span>Sonido original - Tranquiliza</span>
+                    
+                    <div class="short-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress2"></div>
+                        </div>
+                        
+                        <div class="short-content">
+                            <div class="short-info">
+                                <h3 class="short-title">Ejercicios de respiración para la ansiedad</h3>
+                                <div class="short-stats">
+                                    <span>189.4K vistas</span>
+                                </div>
+                                <p class="short-description">
+                                    Aprende esta técnica simple de respiración para calmar la ansiedad en momentos difíciles.
+                                </p>
+                            </div>
+                            
+                            <div class="short-actions">
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-heart text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">189.4K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comment-dots text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">421</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-bookmark text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">18K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-share text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">15.2K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Short 3 -->
+                <div class="short-item">
+                    <video class="short-video" loop>
+                        <source src="/img/reel3.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    
+                    <div class="short-header">
+                        <div class="short-close">
+                            <i class="fas fa-arrow-down text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="short-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress3"></div>
+                        </div>
+                        
+                        <div class="short-content">
+                            <div class="short-info">
+                                <h3 class="short-title">Rutina de yoga matutina</h3>
+                                <div class="short-stats">
+                                    <span>245.7K vistas</span>
+                                </div>
+                                <p class="short-description">
+                                    Comienza tu día con esta rutina de yoga de 5 minutos para energizar tu cuerpo y mente.
+                                </p>
+                            </div>
+                            
+                            <div class="short-actions">
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-heart text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">245.7K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comment-dots text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">532</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-bookmark text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">27K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-share text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">19.8K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Short 4 -->
+                <div class="short-item">
+                    <video class="short-video" loop>
+                        <source src="/img/reel4.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    
+                    <div class="short-header">
+                        <div class="short-close">
+                            <i class="fas fa-arrow-down text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="short-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress4"></div>
+                        </div>
+                        
+                        <div class="short-content">
+                            <div class="short-info">
+                                <h3 class="short-title">Música relajante para concentrarse</h3>
+                                <div class="short-stats">
+                                    <span>178.3K vistas</span>
+                                </div>
+                                <p class="short-description">
+                                    Disfruta de estos sonidos relajantes para mejorar tu concentración y reducir el estrés.
+                                </p>
+                            </div>
+                            
+                            <div class="short-actions">
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-heart text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">178.3K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comment-dots text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">387</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-bookmark text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">15K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-share text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">14.1K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Short 5 -->
+                <div class="short-item">
+                    <video class="short-video" loop>
+                        <source src="/img/reel5.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    
+                    <div class="short-header">
+                        <div class="short-close">
+                            <i class="fas fa-arrow-down text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="short-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress5"></div>
+                        </div>
+                        
+                        <div class="short-content">
+                            <div class="short-info">
+                                <h3 class="short-title">Escritura terapéutica para organizar pensamientos</h3>
+                                <div class="short-stats">
+                                    <span>156.2K vistas</span>
+                                </div>
+                                <p class="short-description">
+                                    Cómo usar la escritura como herramienta para manejar el estrés y la ansiedad.
+                                </p>
+                            </div>
+                            
+                            <div class="short-actions">
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-heart text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">156.2K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comment-dots text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">342</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-bookmark text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">12K</span>
+                                </div>
+                                
+                                <div class="action-button">
+                                    <div class="action-icon">
+                                        <i class="fas fa-share text-2xl text-white"></i>
+                                    </div>
+                                    <span class="action-count">11.5K</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Reel 2 -->
-            <div class="reel">
-                <video class="reel-video" loop muted playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4" type="video/mp4">
-                    Tu navegador no soporta el elemento de video.
-                </video>
-                
-                <div class="reel-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-heart stat-icon"></i>
-                        <span class="stat-count">189.4K</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-comment-dots stat-icon"></i>
-                        <span class="stat-count">421</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-bookmark stat-icon"></i>
-                        <span class="stat-count">18K</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-share stat-icon"></i>
-                        <span class="stat-count">15.2K</span>
-                    </div>
-                </div>
-                
-                <div class="reel-info">
-                    <div class="reel-user">
-                        <div class="user-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <span>@tranquiliza</span>
-                    </div>
-                    <p class="reel-caption">Cómo la naturaleza mejora tu salud mental</p>
-                    <div class="reel-music">
-                        <i class="fas fa-music music-note"></i>
-                        <span>Sonido original - Tranquiliza</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Reel 3 -->
-            <div class="reel">
-                <video class="reel-video" loop muted playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-doing-yoga-on-the-beach-1225-large.mp4" type="video/mp4">
-                    Tu navegador no soporta el elemento de video.
-                </video>
-                
-                <div class="reel-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-heart stat-icon"></i>
-                        <span class="stat-count">245.7K</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-comment-dots stat-icon"></i>
-                        <span class="stat-count">532</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-bookmark stat-icon"></i>
-                        <span class="stat-count">27K</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-share stat-icon"></i>
-                        <span class="stat-count">19.8K</span>
-                    </div>
-                </div>
-                
-                <div class="reel-info">
-                    <div class="reel-user">
-                        <div class="user-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <span>@tranquiliza</span>
-                    </div>
-                    <p class="reel-caption">Rutina de yoga matutina para empezar el día con energía</p>
-                    <div class="reel-music">
-                        <i class="fas fa-music music-note"></i>
-                        <span>Sonido original - Tranquiliza</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Reel 4 -->
-            <div class="reel">
-                <video class="reel-video" loop muted playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-man-playing-on-a-keyboard-2292-large.mp4" type="video/mp4">
-                    Tu navegador no soporta el elemento de video.
-                </video>
-                
-                <div class="reel-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-heart stat-icon"></i>
-                        <span class="stat-count">178.3K</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-comment-dots stat-icon"></i>
-                        <span class="stat-count">387</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-bookmark stat-icon"></i>
-                        <span class="stat-count">15K</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-share stat-icon"></i>
-                        <span class="stat-count">14.1K</span>
-                    </div>
-                </div>
-                
-                <div class="reel-info">
-                    <div class="reel-user">
-                        <div class="user-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <span>@tranquiliza</span>
-                    </div>
-                    <p class="reel-caption">Cómo la música puede reducir tu ansiedad</p>
-                    <div class="reel-music">
-                        <i class="fas fa-music music-note"></i>
-                        <span>Sonido original - Tranquiliza</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Reel 5 -->
-            <div class="reel">
-                <video class="reel-video" loop muted playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-writing-in-a-notebook-2290-large.mp4" type="video/mp4">
-                    Tu navegador no soporta el elemento de video.
-                </video>
-                
-                <div class="reel-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-heart stat-icon"></i>
-                        <span class="stat-count">156.2K</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-comment-dots stat-icon"></i>
-                        <span class="stat-count">342</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-bookmark stat-icon"></i>
-                        <span class="stat-count">12K</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-share stat-icon"></i>
-                        <span class="stat-count">11.5K</span>
-                    </div>
-                </div>
-                
-                <div class="reel-info">
-                    <div class="reel-user">
-                        <div class="user-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <span>@tranquiliza</span>
-                    </div>
-                    <p class="reel-caption">Ejercicio de escritura terapéutica para organizar tus pensamientos</p>
-                    <div class="reel-music">
-                        <i class="fas fa-music music-note"></i>
-                        <span>Sonido original - Tranquiliza</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </main>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const reelsContainer = document.getElementById('reelsContainer');
-            const videos = document.querySelectorAll('.reel-video');
-            let currentReelIndex = 0;
-            let isScrolling = false;
+            const shortsContainer = document.getElementById('shortsContainer');
+            const videos = document.querySelectorAll('.short-video');
+            const progressFills = document.querySelectorAll('.progress-fill');
             
-            // Función para manejar el cambio de reels
-            function handleReelChange(newIndex) {
-                if (newIndex < 0 || newIndex >= videos.length) return;
+            let currentShortIndex = 0;
+            let isScrolling = false;
+            let progressIntervals = [];
+            
+            // Función para actualizar la barra de progreso
+            function updateProgressBar(video, progressFill) {
+                if (progressIntervals[progressFill.id]) {
+                    clearInterval(progressIntervals[progressFill.id]);
+                }
                 
-                // Pausar el video actual
-                videos[currentReelIndex].pause();
-                
-                // Actualizar el índice
-                currentReelIndex = newIndex;
-                
-                // Reproducir el nuevo video
-                videos[currentReelIndex].play().catch(e => console.log(e));
+                progressIntervals[progressFill.id] = setInterval(() => {
+                    const percent = (video.currentTime / video.duration) * 100;
+                    progressFill.style.width = `${percent}%`;
+                }, 100);
             }
             
-            // Configurar IntersectionObserver para detectar el reel visible
+            // Función para manejar el cambio de shorts
+            function handleShortChange(newIndex) {
+                if (newIndex < 0 || newIndex >= videos.length) return;
+                
+                // Pausar el video actual y reiniciar su barra de progreso
+                videos[currentShortIndex].pause();
+                progressFills[currentShortIndex].style.width = '0%';
+                if (progressIntervals[progressFills[currentShortIndex].id]) {
+                    clearInterval(progressIntervals[progressFills[currentShortIndex].id]);
+                }
+                
+                // Actualizar el índice
+                currentShortIndex = newIndex;
+                
+                // Reproducir el nuevo video y comenzar su barra de progreso
+                videos[currentShortIndex].currentTime = 0;
+                videos[currentShortIndex].play().catch(e => console.log(e));
+                updateProgressBar(videos[currentShortIndex], progressFills[currentShortIndex]);
+            }
+            
+            // Configurar IntersectionObserver para detectar el short visible
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && !isScrolling) {
-                        const newIndex = Array.from(document.querySelectorAll('.reel')).indexOf(entry.target);
-                        handleReelChange(newIndex);
+                        const newIndex = Array.from(document.querySelectorAll('.short-item')).indexOf(entry.target);
+                        handleShortChange(newIndex);
                     }
                 });
             }, {
-                threshold: 0.7 // 70% del reel debe ser visible
+                threshold: 0.8 // 80% del short debe ser visible
             });
             
-            // Observar cada reel
-            document.querySelectorAll('.reel').forEach(reel => {
-                observer.observe(reel);
+            // Observar cada short
+            document.querySelectorAll('.short-item').forEach(short => {
+                observer.observe(short);
             });
             
             // Manejar el scroll con rueda del mouse
-            reelsContainer.addEventListener('wheel', (e) => {
+            shortsContainer.addEventListener('wheel', (e) => {
                 e.preventDefault();
                 
                 isScrolling = true;
                 
                 // Determinar dirección del scroll
                 const delta = Math.sign(e.deltaY);
-                const newIndex = currentReelIndex + delta;
+                const newIndex = currentShortIndex + delta;
                 
-                // Limitar el índice entre 0 y el número total de reels
+                // Limitar el índice entre 0 y el número total de shorts
                 const clampedIndex = Math.max(0, Math.min(newIndex, videos.length - 1));
                 
-                // Desplazar al reel correspondiente
-                document.querySelectorAll('.reel')[clampedIndex].scrollIntoView({
+                // Desplazar al short correspondiente
+                document.querySelectorAll('.short-item')[clampedIndex].scrollIntoView({
                     behavior: 'smooth'
                 });
                 
@@ -589,18 +770,54 @@
                 }, 1000);
             });
             
-            // Reproducir el primer video al cargar
-            if (videos.length > 0) {
-                videos[0].play().catch(e => console.log(e));
-            }
-            
-            // Pausar/reproducir al hacer clic en el video
-            videos.forEach(video => {
+            // Configurar eventos de clic en los videos
+            videos.forEach((video, index) => {
                 video.addEventListener('click', () => {
                     if (video.paused) {
                         video.play();
+                        updateProgressBar(video, progressFills[index]);
                     } else {
                         video.pause();
+                        if (progressIntervals[progressFills[index].id]) {
+                            clearInterval(progressIntervals[progressFills[index].id]);
+                        }
+                    }
+                });
+                
+                // Reiniciar la barra de progreso cuando el video termina
+                video.addEventListener('ended', () => {
+                    progressFills[index].style.width = '0%';
+                    video.currentTime = 0;
+                    video.play();
+                    updateProgressBar(video, progressFills[index]);
+                });
+            });
+            
+            // Reproducir el primer video al cargar
+            if (videos.length > 0) {
+                videos[0].play().catch(e => console.log(e));
+                updateProgressBar(videos[0], progressFills[0]);
+            }
+            
+            // Configurar botones de acción
+            document.querySelectorAll('.action-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Evitar que el clic llegue al video
+                    const icon = button.querySelector('i');
+                    
+                    // Efecto visual al hacer clic
+                    button.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        button.style.transform = '';
+                    }, 200);
+                    
+                    // Cambiar icono de like si es el botón de corazón
+                    if (icon.classList.contains('fa-heart')) {
+                        if (icon.classList.contains('text-red-500')) {
+                            icon.classList.remove('text-red-500');
+                        } else {
+                            icon.classList.add('text-red-500');
+                        }
                     }
                 });
             });
