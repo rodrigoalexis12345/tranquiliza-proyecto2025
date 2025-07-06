@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Reels - Tranquiliza</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -194,7 +194,136 @@
             justify-content: space-between;
             color: white;
         }
-        
+    /* Estilos para el botón de subir y modal */
+.upload-btn {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.upload-btn:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Animación para el modal */
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#uploadModal {
+    animation: modalFadeIn 0.3s ease-out;
+}
+        /* Menú móvil */
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, rgb(13 110 253) 0%, #7c3aed 100%);
+    z-index: 40;
+    padding: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+/* Menú vertical responsive */
+@media (max-width: 768px) {
+    .container.mx-auto.flex {
+        flex-direction: column;
+    }
+    
+    nav.w-16 {
+        width: 100% !important;
+        order: 2;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 30;
+        background: white;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        padding: 0.5rem;
+    }
+    
+    .nav-vertical {
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 0;
+    }
+    
+    .nav-item {
+        flex-direction: column;
+        padding: 0.5rem;
+        margin: 0;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+    
+    .nav-item:hover, .nav-item.active {
+        border-left: none;
+        border-bottom-color: rgb(13 110 253);
+        transform: translateY(-2px);
+    }
+    
+    .nav-item span {
+        display: block !important;
+        font-size: 10px;
+        margin-top: 4px;
+    }
+    
+    .nav-item i {
+        font-size: 16px;
+    }
+    
+    main.flex-1 {
+        margin-bottom: 60px;
+    }
+}
+
+/* Mejorar comportamiento táctil */
+.short-item {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-y;
+}
+
+/* Ajustes para iOS */
+@supports (-webkit-touch-callout: none) {
+    .shorts-container {
+        height: -webkit-fill-available;
+    }
+}
+
+/* Mejoras para móviles pequeños */
+@media (max-width: 400px) {
+    .short-title {
+        font-size: 14px;
+    }
+    
+    .short-description {
+        font-size: 12px;
+    }
+    
+    .action-icon {
+        width: 32px !important;
+        height: 32px !important;
+    }
+    
+    .action-count {
+        font-size: 10px !important;
+    }
+}
         /* Lado izquierdo (descripción) */
         .short-info {
             flex: 1;
@@ -322,18 +451,23 @@
                 </nav>
             </div>
             <div class="flex items-center space-x-4">
-                <a href="/register" class="hidden sm:inline-block text-sm font-medium hover:text-white transition">Registrarse</a>
-                <a href="/login" class="login-btn flex items-center space-x-1">
-                    <span>INGRESAR</span>
-                    <i class="fas fa-arrow-right text-xs"></i>
-                </a>
-                <button class="md:hidden p-2 rounded-md hover:bg-white/10 focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
+    <button id="uploadBtn" class="upload-btn flex items-center space-x-1">
+        <span>SUBIR</span>
+        <i class="fas fa-upload text-xs"></i>
+    </button>
+</div>
         </div>
+        <!-- Menú móvil -->
+<div class="mobile-menu">
+    <nav class="nav-horizontal">
+        <a class="nav-link active" th:href="@{/}">Inicio</a>
+        <a class="nav-link" th:href="@{/reuniones}">Reuniones</a>
+        <a class="nav-link" th:href="@{/audiolibros}">Audiolibros</a>
+        <a class="nav-link" th:href="@{/curso}">Curso</a>
+        <a class="nav-link" th:href="@{/juegos}">Juegos</a>
+        <a class="nav-link" th:href="@{/progreso}">Progreso</a>
+    </nav>
+</div>
     </header>
 
     <!-- Contenedor principal -->
@@ -686,142 +820,199 @@
             </div>
         </main>
     </div>
-
+    <!-- Modal para subir videos -->
+<div id="uploadModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Subir video corto</h3>
+            <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <form id="uploadForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Seleccionar video</label>
+                <input type="file" id="videoFile" accept="video/*" class="mt-1 block w-full" required>
+                <p class="mt-1 text-sm text-gray-500">Formatos soportados: MP4, MOV (máx. 50MB)</p>
+            </div>
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
+                <input type="text" id="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+            </div>
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Descripción</label>
+                <textarea id="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition">
+                Subir Video
+            </button>
+        </form>
+    </div>
+</div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const shortsContainer = document.getElementById('shortsContainer');
-            const videos = document.querySelectorAll('.short-video');
-            const progressFills = document.querySelectorAll('.progress-fill');
+document.addEventListener('DOMContentLoaded', function() {
+    // Elementos del reproductor de shorts (código existente)
+    const shortsContainer = document.getElementById('shortsContainer');
+    const videos = document.querySelectorAll('.short-video');
+    const progressBars = document.querySelectorAll('.progress-bar');
+    
+    // Elementos para la subida de videos
+    const uploadBtn = document.getElementById('uploadBtn');
+    const uploadModal = document.getElementById('uploadModal');
+    const closeModal = document.getElementById('closeModal');
+    const uploadForm = document.getElementById('uploadForm');
+    const videoFileInput = document.getElementById('videoFile');
+    
+    // Variables para el reproductor
+    let currentShortIndex = 0;
+    let isScrolling = false;
+    let progressIntervals = [];
+    let touchStartY = 0;
+    let touchEndY = 0;
+
+    // Manejar el modal de subida
+    uploadBtn.addEventListener('click', () => {
+        uploadModal.classList.remove('hidden');
+    });
+
+    closeModal.addEventListener('click', () => {
+        uploadModal.classList.add('hidden');
+    });
+
+    // Manejar el envío del formulario
+    uploadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        formData.append('video', videoFileInput.files[0]);
+        formData.append('title', document.getElementById('title').value);
+        formData.append('description', document.getElementById('description').value);
+        
+        try {
+            const response = await fetch('/api/upload-reel', {
+                method: 'POST',
+                body: formData
+            });
             
-            let currentShortIndex = 0;
-            let isScrolling = false;
-            let progressIntervals = [];
-            
-            // Función para actualizar la barra de progreso
-            function updateProgressBar(video, progressFill) {
-                if (progressIntervals[progressFill.id]) {
-                    clearInterval(progressIntervals[progressFill.id]);
-                }
-                
-                progressIntervals[progressFill.id] = setInterval(() => {
-                    const percent = (video.currentTime / video.duration) * 100;
-                    progressFill.style.width = `${percent}%`;
-                }, 100);
+            if (response.ok) {
+                alert('Video subido exitosamente!');
+                uploadModal.classList.add('hidden');
+                uploadForm.reset();
+                // Recargar los shorts o agregar el nuevo dinámicamente
+                location.reload();
+            } else {
+                throw new Error('Error en la subida');
             }
-            
-            // Función para manejar el cambio de shorts
-            function handleShortChange(newIndex) {
-                if (newIndex < 0 || newIndex >= videos.length) return;
-                
-                // Pausar el video actual y reiniciar su barra de progreso
-                videos[currentShortIndex].pause();
-                progressFills[currentShortIndex].style.width = '0%';
-                if (progressIntervals[progressFills[currentShortIndex].id]) {
-                    clearInterval(progressIntervals[progressFills[currentShortIndex].id]);
-                }
-                
-                // Actualizar el índice
-                currentShortIndex = newIndex;
-                
-                // Reproducir el nuevo video y comenzar su barra de progreso
-                videos[currentShortIndex].currentTime = 0;
-                videos[currentShortIndex].play().catch(e => console.log(e));
-                updateProgressBar(videos[currentShortIndex], progressFills[currentShortIndex]);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al subir el video. Por favor intenta nuevamente.');
+        }
+    });
+
+    // Código existente para el reproductor de shorts
+    function updateProgressBar(video, progressBar) {
+        if (progressIntervals[currentShortIndex]) {
+            clearInterval(progressIntervals[currentShortIndex]);
+        }
+        
+        progressIntervals[currentShortIndex] = setInterval(() => {
+            if (video.duration) {
+                const percent = (video.currentTime / video.duration) * 100;
+                progressBar.style.width = `${percent}%`;
             }
-            
-            // Configurar IntersectionObserver para detectar el short visible
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !isScrolling) {
-                        const newIndex = Array.from(document.querySelectorAll('.short-item')).indexOf(entry.target);
-                        handleShortChange(newIndex);
-                    }
-                });
-            }, {
-                threshold: 0.8 // 80% del short debe ser visible
-            });
-            
-            // Observar cada short
-            document.querySelectorAll('.short-item').forEach(short => {
-                observer.observe(short);
-            });
-            
-            // Manejar el scroll con rueda del mouse
-            shortsContainer.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                
-                isScrolling = true;
-                
-                // Determinar dirección del scroll
-                const delta = Math.sign(e.deltaY);
-                const newIndex = currentShortIndex + delta;
-                
-                // Limitar el índice entre 0 y el número total de shorts
-                const clampedIndex = Math.max(0, Math.min(newIndex, videos.length - 1));
-                
-                // Desplazar al short correspondiente
-                document.querySelectorAll('.short-item')[clampedIndex].scrollIntoView({
-                    behavior: 'smooth'
-                });
-                
-                // Resetear flag después de la animación
-                setTimeout(() => {
-                    isScrolling = false;
-                }, 1000);
-            });
-            
-            // Configurar eventos de clic en los videos
-            videos.forEach((video, index) => {
-                video.addEventListener('click', () => {
-                    if (video.paused) {
-                        video.play();
-                        updateProgressBar(video, progressFills[index]);
-                    } else {
-                        video.pause();
-                        if (progressIntervals[progressFills[index].id]) {
-                            clearInterval(progressIntervals[progressFills[index].id]);
-                        }
-                    }
-                });
-                
-                // Reiniciar la barra de progreso cuando el video termina
-                video.addEventListener('ended', () => {
-                    progressFills[index].style.width = '0%';
-                    video.currentTime = 0;
-                    video.play();
-                    updateProgressBar(video, progressFills[index]);
-                });
-            });
-            
-            // Reproducir el primer video al cargar
-            if (videos.length > 0) {
-                videos[0].play().catch(e => console.log(e));
-                updateProgressBar(videos[0], progressFills[0]);
+        }, 100);
+    }
+
+    function handleShortChange(newIndex) {
+        if (newIndex < 0 || newIndex >= videos.length || newIndex === currentShortIndex) return;
+        
+        videos[currentShortIndex].pause();
+        if (progressIntervals[currentShortIndex]) {
+            clearInterval(progressIntervals[currentShortIndex]);
+        }
+        
+        currentShortIndex = newIndex;
+        videos[currentShortIndex].currentTime = 0;
+        videos[currentShortIndex].play().catch(e => console.log("Error:", e));
+        updateProgressBar(videos[currentShortIndex], progressBars[currentShortIndex]);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !isScrolling) {
+                const newIndex = Array.from(document.querySelectorAll('.short-item')).indexOf(entry.target);
+                handleShortChange(newIndex);
             }
-            
-            // Configurar botones de acción
-            document.querySelectorAll('.action-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Evitar que el clic llegue al video
-                    const icon = button.querySelector('i');
-                    
-                    // Efecto visual al hacer clic
-                    button.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        button.style.transform = '';
-                    }, 200);
-                    
-                    // Cambiar icono de like si es el botón de corazón
-                    if (icon.classList.contains('fa-heart')) {
-                        if (icon.classList.contains('text-red-500')) {
-                            icon.classList.remove('text-red-500');
-                        } else {
-                            icon.classList.add('text-red-500');
-                        }
-                    }
-                });
-            });
         });
-    </script>
+    }, { threshold: 0.8 });
+
+    document.querySelectorAll('.short-item').forEach(short => observer.observe(short));
+
+    shortsContainer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (isScrolling) return;
+        isScrolling = true;
+        
+        const delta = Math.sign(e.deltaY);
+        const newIndex = Math.max(0, Math.min(currentShortIndex + delta, videos.length - 1));
+        
+        document.querySelectorAll('.short-item')[newIndex].scrollIntoView({ behavior: 'smooth' });
+        
+        setTimeout(() => isScrolling = false, 800);
+    });
+
+    shortsContainer.addEventListener('touchstart', (e) => {
+        touchStartY = e.changedTouches[0].screenY;
+    }, {passive: true});
+
+    shortsContainer.addEventListener('touchend', (e) => {
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+    }, {passive: true});
+
+    function handleSwipe() {
+        const threshold = 50;
+        const deltaY = touchStartY - touchEndY;
+        
+        if (Math.abs(deltaY) < threshold) return;
+        
+        isScrolling = true;
+        const newIndex = deltaY > 0 ? currentShortIndex + 1 : currentShortIndex - 1;
+        const clampedIndex = Math.max(0, Math.min(newIndex, videos.length - 1));
+        
+        document.querySelectorAll('.short-item')[clampedIndex].scrollIntoView({ behavior: 'smooth' });
+        
+        setTimeout(() => isScrolling = false, 800);
+    }
+
+    videos.forEach((video, index) => {
+        video.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                updateProgressBar(video, progressBars[index]);
+            } else {
+                video.pause();
+                if (progressIntervals[index]) clearInterval(progressIntervals[index]);
+            }
+        });
+
+        video.addEventListener('ended', () => {
+            progressBars[index].style.width = '0%';
+            video.currentTime = 0;
+            video.play();
+            updateProgressBar(video, progressBars[index]);
+        });
+    });
+
+    document.addEventListener('gesturestart', function(e) {
+        e.preventDefault();
+    });
+
+    if (videos.length > 0) {
+        videos[0].play().catch(e => console.log("Error inicial:", e));
+        updateProgressBar(videos[0], progressBars[0]);
+    }
+});
+</script>
 </body>
 </html>
