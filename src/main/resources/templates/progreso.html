@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Progreso - Tranquiliza</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos personalizados */
+        .progress-container {
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card {
+            border-left: 4px solid;
+        }
+        
+        .reels-progress {
+            border-left-color: #3b82f6; /* Azul */
+        }
+        
+        .games-progress {
+            border-left-color: #10b981; /* Verde */
+        }
+        
+        .courses-progress {
+            border-left-color: #f59e0b; /* Amarillo */
+        }
+        
+        .meetings-progress {
+            border-left-color: #8b5cf6; /* Violeta */
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 200px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-chart-line text-2xl"></i>
+                <h1 class="text-xl font-bold">Mi Progreso</h1>
+            </div>
+            <a href="/reels" class="flex items-center space-x-1 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full transition">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Resumen general -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Tu progreso general</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Tarjeta de Reels -->
+                <div class="card stat-card reels-progress bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-700">Reels completados</h3>
+                        <i class="fas fa-play-circle text-blue-500 text-xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold mb-2 text-gray-800">24/50</div>
+                    <div class="progress-container mb-2">
+                        <div class="progress-bar bg-blue-500" style="width: 48%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500">Has completado el 48% de los reels</p>
+                </div>
+                
+                <!-- Tarjeta de Juegos -->
+                <div class="card stat-card games-progress bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-700">Juegos completados</h3>
+                        <i class="fas fa-gamepad text-green-500 text-xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold mb-2 text-gray-800">5/8</div>
+                    <div class="progress-container mb-2">
+                        <div class="progress-bar bg-green-500" style="width: 62.5%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500">Has completado el 62.5% de los juegos</p>
+                </div>
+                
+                <!-- Tarjeta de Cursos -->
+                <div class="card stat-card courses-progress bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-700">Progreso de cursos</h3>
+                        <i class="fas fa-book text-yellow-500 text-xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold mb-2 text-gray-800">35%</div>
+                    <div class="progress-container mb-2">
+                        <div class="progress-bar bg-yellow-500" style="width: 35%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500">Llevas 3 de 8 módulos completados</p>
+                </div>
+                
+                <!-- Tarjeta de Reuniones -->
+                <div class="card stat-card meetings-progress bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-700">Tiempo en terapia</h3>
+                        <i class="fas fa-clock text-purple-500 text-xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold mb-2 text-gray-800">12.5h</div>
+                    <div class="progress-container mb-2">
+                        <div class="progress-bar bg-purple-500" style="width: 25%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500">12 sesiones de 1 hora cada una</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gráficos detallados -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Tus estadísticas detalladas</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Gráfico de progreso semanal -->
+                <div class="card bg-white rounded-lg shadow p-6">
+                    <h3 class="font-semibold text-lg mb-4 text-gray-700">Actividad semanal</h3>
+                    <div class="chart-container">
+                        <canvas id="weeklyChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Distribución de tiempo -->
+                <div class="card bg-white rounded-lg shadow p-6">
+                    <h3 class="font-semibold text-lg mb-4 text-gray-700">Distribución de tu tiempo</h3>
+                    <div class="chart-container">
+                        <canvas id="timeDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lista de logros -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Tus logros</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Logro 1 -->
+                <div class="card bg-white rounded-lg shadow p-4 flex items-center space-x-4">
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <i class="fas fa-medal text-blue-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Primeros 10 reels</h4>
+                        <p class="text-sm text-gray-500">Completado el 15/03/2023</p>
+                    </div>
+                </div>
+                
+                <!-- Logro 2 -->
+                <div class="card bg-white rounded-lg shadow p-4 flex items-center space-x-4">
+                    <div class="bg-green-100 p-3 rounded-full">
+                        <i class="fas fa-gamepad text-green-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Experto en relajación</h4>
+                        <p class="text-sm text-gray-500">3 juegos completados</p>
+                    </div>
+                </div>
+                
+                <!-- Logro 3 -->
+                <div class="card bg-white rounded-lg shadow p-4 flex items-center space-x-4">
+                    <div class="bg-yellow-100 p-3 rounded-full">
+                        <i class="fas fa-book text-yellow-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Primer módulo completado</h4>
+                        <p class="text-sm text-gray-500">Curso de manejo de ansiedad</p>
+                    </div>
+                </div>
+                
+                <!-- Logro 4 -->
+                <div class="card bg-white rounded-lg shadow p-4 flex items-center space-x-4">
+                    <div class="bg-purple-100 p-3 rounded-full">
+                        <i class="fas fa-heart text-purple-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">5 sesiones completadas</h4>
+                        <p class="text-sm text-gray-500">Terapia psicológica</p>
+                    </div>
+                </div>
+                
+                <!-- Logro 5 -->
+                <div class="card bg-white rounded-lg shadow p-4 flex items-center space-x-4">
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <i class="fas fa-fire text-red-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Racha de 7 días</h4>
+                        <p class="text-sm text-gray-500">Usando la app diariamente</p>
+                    </div>
+                </div>
+                
+                <!-- Logro 6 -->
+                <div class="card bg-white rounded-lg shadow p-4 flex items-center space-x-4">
+                    <div class="bg-green-100 p-3 rounded-full">
+                        <i class="fas fa-moon text-indigo-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Sueño mejorado</h4>
+                        <p class="text-sm text-gray-500">7 días seguidos durmiendo bien</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2023 Tranquiliza - Todos los derechos reservados</p>
+            <p class="text-gray-400 text-sm mt-2">Tu bienestar es nuestra prioridad</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Datos simulados (en una app real, estos vendrían de una API)
+            const userData = {
+                reelsCompleted: 24,
+                totalReels: 50,
+                gamesCompleted: 5,
+                totalGames: 8,
+                courseProgress: 35,
+                therapyHours: 12.5,
+                therapySessions: 12,
+                weeklyActivity: [4, 6, 3, 8, 5, 7, 2], // Reels por día de la semana
+                timeDistribution: {
+                    reels: 35,
+                    games: 25,
+                    courses: 20,
+                    therapy: 15,
+                    other: 5
+                }
+            };
+
+            // Actualizar los datos en las tarjetas
+            document.querySelector('.reels-progress .text-3xl').textContent = 
+                `${userData.reelsCompleted}/${userData.totalReels}`;
+            document.querySelector('.reels-progress .progress-bar').style.width = 
+                `${(userData.reelsCompleted / userData.totalReels) * 100}%`;
+            document.querySelector('.reels-progress p').textContent = 
+                `Has completado el ${Math.round((userData.reelsCompleted / userData.totalReels) * 100)}% de los reels`;
+
+            document.querySelector('.games-progress .text-3xl').textContent = 
+                `${userData.gamesCompleted}/${userData.totalGames}`;
+            document.querySelector('.games-progress .progress-bar').style.width = 
+                `${(userData.gamesCompleted / userData.totalGames) * 100}%`;
+            document.querySelector('.games-progress p').textContent = 
+                `Has completado el ${Math.round((userData.gamesCompleted / userData.totalGames) * 100)}% de los juegos`;
+
+            document.querySelector('.courses-progress .text-3xl').textContent = 
+                `${userData.courseProgress}%`;
+            document.querySelector('.courses-progress .progress-bar').style.width = 
+                `${userData.courseProgress}%`;
+            document.querySelector('.courses-progress p').textContent = 
+                `Llevas 3 de 8 módulos completados`;
+
+            document.querySelector('.meetings-progress .text-3xl').textContent = 
+                `${userData.therapyHours}h`;
+            document.querySelector('.meetings-progress .progress-bar').style.width = 
+                `${(userData.therapySessions / 48) * 100}%`; // Asumiendo 1 sesión semanal por 1 año
+            document.querySelector('.meetings-progress p').textContent = 
+                `${userData.therapySessions} sesiones de 1 hora cada una`;
+
+            // Gráfico de actividad semanal
+            const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+            new Chart(weeklyCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                    datasets: [{
+                        label: 'Reels vistos',
+                        data: userData.weeklyActivity,
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Reels vistos'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de distribución de tiempo
+            const timeCtx = document.getElementById('timeDistributionChart').getContext('2d');
+            new Chart(timeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Reels', 'Juegos', 'Cursos', 'Terapia', 'Otros'],
+                    datasets: [{
+                        data: [
+                            userData.timeDistribution.reels,
+                            userData.timeDistribution.games,
+                            userData.timeDistribution.courses,
+                            userData.timeDistribution.therapy,
+                            userData.timeDistribution.other
+                        ],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(139, 92, 246, 0.7)',
+                            'rgba(156, 163, 175, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(156, 163, 175, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Animación de las tarjetas al cargar
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
