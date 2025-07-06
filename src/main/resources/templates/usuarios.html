@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Usuarios</title>
+    <style>
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 6px; }
+        input, button { margin: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Gestión de Usuarios</h1>
+
+    <form id="usuarioForm">
+        <input type="hidden" id="id" />
+        <input type="text" id="nombreUsuario" placeholder="Usuario" required />
+        <input type="email" id="correo" placeholder="Correo" required />
+        <input type="password" id="contrasena" placeholder="Contraseña" required />
+        <button type="submit">Guardar</button>
+        <button type="button" onclick="resetFormulario()">Cancelar</button>
+    </form>
+
+    <h2>Lista de Usuarios</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th><th>Usuario</th><th>Correo</th><th>Contraseña</th><th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="usuariosTable"></tbody>
+    </table>
+
+    <script>
+        const form = document.getElementById("usuarioForm");
+        const tabla = document.getElementById("usuariosTable");
+
+        const cargarUsuarios = async () => {
+            const res = await fetch("/api/usuarios");
+            const usuarios = await res.json();
+            tabla.innerHTML = usuarios.map(u => `
+                <tr>
+                    <td>${u.id}</td>
+                    <td>${u.nombreUsuario}</td>
+                    <td>${u.correo}</td>
+                    <td>${u.contrasena}</td>
+                    <td>
+                        <button onclick='editar(${JSON.stringify(u)})'>Editar</button>
+                        <button onclick='eliminar(${u.id})'>Eliminar</button>
+                    </td>
+                </tr>
+            `).join('');
+        };
+
+        const editar = (usuario) => {
+            document.getElementById("id").value = usuario.id;
+            document.getElementById("nombreUsuario").value = usuario.nombreUsuario;
+            document.getElementById("correo").value = usuario.correo;
+            document.getElementById("contrasena").value = usuario.contrasena;
+        };
+
+        const eliminar = async (id) => {
+            await fetch(`/api/usuarios/${id}`, { method: "DELETE" });
+            await cargarUsuarios();
+        };
+
+        const resetFormulario = () => {
+            form.reset();
+            document.getElementById("id").value = "";
+        };
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const id = document.getElementById("id").value;
+            const usuario = {
+                nombreUsuario: document.getElementById("nombreUsuario").value,
+                correo: document.getElementById("correo").value,
+                contrasena: document.getElementById("contrasena").value
+            };
+
+            const url = id ? `/api/usuarios/${id}` : "/api/usuarios";
+            const method = id ? "PUT" : "POST";
+
+            await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(usuario)
+            });
+
+            resetFormulario();
+            await cargarUsuarios();
+        });
+
+        cargarUsuarios();
+    </script>
+</body>
+</html>
