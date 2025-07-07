@@ -1,0 +1,12 @@
+<h1>Agenda tu cita</h1>
+<form action="/detalles" method="post">
+    <select name="nombre">
+        <option th:each="psico : ${psicologos}" th:text="${psico.nombre}" th:value="${psico.nombre}"></option>
+    </select>
+    <select name="especialidad">
+        <option th:each="psico : ${psicologos}" th:text="${psico.especialidad}" th:value="${psico.especialidad}"></option>
+    </select>
+    <input type="date" name="fecha" required>
+    <input type="time" name="hora" required>
+    <button type="submit" th:href="@{/detalles}">Agendar cita</button>
+</form>

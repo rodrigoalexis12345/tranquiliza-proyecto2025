@@ -1,0 +1,17 @@
+<h2>Detalles de la Cita</h2>
+<p>Psicólogo: <span th:text="${nombre}"></span></p>
+<p>Especialidad: <span th:text="${especialidad}"></span></p>
+<p>Fecha: <span th:text="${fecha}"></span></p>
+<p>Hora: <span th:text="${hora}"></span></p>
+<form action="/confirmar" method="post">
+    <input type="hidden" name="nombre" th:value="${nombre}">
+    <input type="hidden" name="especialidad" th:value="${especialidad}">
+    <input type="hidden" name="fecha" th:value="${fecha}">
+    <input type="hidden" name="hora" th:value="${hora}">
+    <input type="email" name="correo" placeholder="Tu correo" required>
+    <button type="submit">Confirmar cita</button>
+</form>
+<script>
+    alert("🎉 ¡Gracias por registrar tu cita! En breve recibirás un correo con el enlace para acceder a tu sesión online. ¡Te esperamos con gusto!");
+    window.location.href = "/reuniones";
+</script>
