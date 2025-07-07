@@ -26,4 +26,5 @@ public class UsuarioDetailsService implements UserDetailsService {
             .roles("USER") // puedes cambiar roles si tienes
             .build();
     }
+    
 }

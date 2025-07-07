@@ -115,6 +115,19 @@
             text-align: center;
             margin-top: 2rem;
         }
+         .avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            color: #0d6efd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -138,6 +151,17 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/progreso}">Progreso</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/ingresar}">INGRESAR</a></li>
             </ul>
+              <!-- Bolita de usuario -->
+            <div class="dropdown ms-3" th:if="${inicial}">
+                <button class="avatar-circle dropdown-toggle border-0" type="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" th:text="${inicial}">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li class="dropdown-item disabled" th:text="${usuarioSesion.nombre} + ' ' + ${usuarioSesion.apellidos}">Nombre Apellido</li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" th:href="@{/login}">Cerrar sesión</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>

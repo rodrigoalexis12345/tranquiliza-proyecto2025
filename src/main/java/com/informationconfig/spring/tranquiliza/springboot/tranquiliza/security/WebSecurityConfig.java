@@ -30,15 +30,15 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/register", "/do-register", "/css/**", "/js/**", "/img/**").permitAll()
+                .requestMatchers("/register", "/do-register", "/css/**", "/js/**", "/img/**", "/video/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")
-                .loginProcessingUrl("/do-login")
-                .usernameParameter("correo")
-                .passwordParameter("contrasena")
-                .defaultSuccessUrl("/", true)
+                .loginPage("/login")                        // Página personalizada
+                .loginProcessingUrl("/login")               // Donde se envía el formulario
+                .usernameParameter("correo")                // El campo que usas como username
+                .passwordParameter("contrasena")            // El campo que usas como contraseña
+                .defaultSuccessUrl("/index", true)           // A dónde va después de loguearse
                 .failureUrl("/login?error=true")
                 .permitAll()
             )
