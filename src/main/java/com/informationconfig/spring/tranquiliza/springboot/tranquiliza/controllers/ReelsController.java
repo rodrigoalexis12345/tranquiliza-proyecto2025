@@ -1,44 +1,41 @@
 package com.informationconfig.spring.tranquiliza.springboot.tranquiliza.controllers;
 
+import com.informationconfig.spring.tranquiliza.springboot.tranquiliza.models.CardsReels;
+import com.informationconfig.spring.tranquiliza.springboot.tranquiliza.repository.ReelsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.ArrayList;
 
 @Controller
+@RequestMapping("/reels")
 public class ReelsController {
-
-    @GetMapping("/reels")
-    public String showReels(
-        Model model,
-        @RequestParam(defaultValue = "") String search) {
+    
+    @Autowired
+    private ReelsRepository reelsRepository;
+    
+    @GetMapping
+    public String mostrarReels(Model model, 
+                             @RequestParam(required = false) String categoria) {
+        List<CardsReels> reels;
         
-        // Datos dinámicos
-        model.addAttribute("navItems", List.of(
-            new NavItem("Home", true),
-            new NavItem("progreso", false),
-            new NavItem("Calificación", false),
-            new NavItem("Contacto", false),
-            new NavItem("Cursos", false)
-        ));
-
-        model.addAttribute("contentText", 
-            "La salud mental incluye nuestro bienestar emocional, psicológico y social...");
-
-        model.addAttribute("stats", List.of(
-            new Stat("302.9K", "Visualizaciones", "eye"),
-            new Stat("612", "Comentarios", "comment"),
-            new Stat("33K", "Likes", "heart"),
-            new Stat("22.7K", "Compartidos", "share")
-        ));
-
-        model.addAttribute("searchQuery", search);
-
+        if(categoria != null && !categoria.isEmpty()) {
+            reels = reelsRepository.findByCategoria(categoria);
+        } else {
+            reels = reelsRepository.findRecientes();
+        }
+        
+        model.addAttribute("reels", reels);
+        model.addAttribute("categorias", reelsRepository.findAllCategorias());
         return "reels";
     }
-
-    // Records para estructura de datos
-    public record NavItem(String name, boolean isActive) {}
-    public record Stat(String value, String label, String icon) {}
+    
+    @GetMapping("/{id}")
+    public String mostrarReelDetalle(@PathVariable Long id, Model model) {
+        CardsReels reel = reelsRepository.findById(id).orElseThrow();
+        model.addAttribute("reel", reel);
+        return "reel-detalle";
+    }
 }
