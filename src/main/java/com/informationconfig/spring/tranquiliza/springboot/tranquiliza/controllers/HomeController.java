@@ -15,17 +15,26 @@ public class HomeController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @GetMapping({"/", "/index"})
-    public String mostrarInicio(@AuthenticationPrincipal User user, Model model) {
-        if (user != null) {
-            String correo = user.getUsername();
-            Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
+ @GetMapping({"homeprincipal/", "/index"})
+public String mostrarInicio(@AuthenticationPrincipal User user, Model model) {
+    if (user != null) {
+        String correo = user.getUsername();
+        Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
 
-            if (usuario != null && usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
-                model.addAttribute("nombreUsuario", usuario.getNombre());
-            }
+        if (usuario != null) {
+            model.addAttribute("usuarioSesion", usuario);
+
+            // Calculamos la inicial
+            String inicial = usuario.getNombre() != null && !usuario.getNombre().isEmpty()
+                    ? usuario.getNombre().substring(0, 1).toUpperCase()
+                    : "?";
+            model.addAttribute("inicial", inicial);
+
+            // Para el modal de bienvenida
+            model.addAttribute("nombreUsuario", usuario.getNombre());
         }
-
-        return "index";
     }
+
+    return "index";
+}
 }
