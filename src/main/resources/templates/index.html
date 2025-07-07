@@ -54,6 +54,20 @@
         .card-body {
             flex-grow: 1;
         }
+
+        .avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            color: #0d6efd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -66,6 +80,7 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link active" th:href="@{/}">Inicio</a></li>
@@ -75,8 +90,20 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/reels}">Reels</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/juegos}">Juegos</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/progreso}">Progreso</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Salir</a></li>
+                
             </ul>
+
+            <!-- Bolita de usuario -->
+            <div class="dropdown ms-3" th:if="${inicial}">
+                <button class="avatar-circle dropdown-toggle border-0" type="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" th:text="${inicial}">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li class="dropdown-item disabled" th:text="${usuarioSesion.nombre} + ' ' + ${usuarioSesion.apellidos}">Nombre Apellido</li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" th:href="@{/login}">Cerrar sesión</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
@@ -84,8 +111,6 @@
 <!-- Contenido principal -->
 <div class="container py-5">
     <h1 class="text-center mb-4">Bienvenido a Tranquiliza</h1>
-
-    
 
     <div class="row">
         <!-- Cards dinámicas -->
@@ -117,6 +142,7 @@
         </div>
     </div>
 </div>
+
 <!-- Footer -->
 <footer>
     <p>&copy; 2025 Tranquiliza - Todos los derechos reservados.</p>
@@ -132,13 +158,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script th:if="${nombreUsuario}">
     window.addEventListener('load', () => {
-        if (!sessionStorage.getItem('bienvenidaMostrada')) {
-            const modal = new bootstrap.Modal(document.getElementById('bienvenidaModal'));
-            modal.show();
-            sessionStorage.setItem('bienvenidaMostrada', 'true');
-        }
+        const modal = new bootstrap.Modal(document.getElementById('bienvenidaModal'));
+        modal.show();
     });
 </script>
-
 </body>
 </html>
