@@ -29,25 +29,29 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/register", "/do-register", "/css/**", "/js/**", "/img/**", "/video/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")                        // Página personalizada
-                .loginProcessingUrl("/login")               // Donde se envía el formulario
-                .usernameParameter("correo")                // El campo que usas como username
-                .passwordParameter("contrasena")            // El campo que usas como contraseña
-                .defaultSuccessUrl("/index", true)           // A dónde va después de loguearse
-                .failureUrl("/login?error=true")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout=true")
-                .permitAll()
-            )
-            .userDetailsService(usuarioDetailsService);
+    .csrf(csrf -> csrf.disable())  // Solo para pruebas
+    .authorizeHttpRequests(auth -> auth
+        .requestMatchers(
+            "/register", "/do-register", "/css/**", "/js/**", "/img/**", "/video/**",
+            "/reuniones", "/detalles", "/confirmar", "/psicologos", "/index"
+        ).permitAll()
+        .anyRequest().authenticated()
+    )
+    .formLogin(form -> form
+        .loginPage("/login")
+        .loginProcessingUrl("/login")
+        .usernameParameter("correo")
+        .passwordParameter("contrasena")
+        .defaultSuccessUrl("/index", true)
+        .failureUrl("/login?error=true")
+        .permitAll()
+    )
+    .logout(logout -> logout
+        .logoutUrl("/logout")
+        .logoutSuccessUrl("/login?logout=true")
+        .permitAll()
+    )
+    .userDetailsService(usuarioDetailsService);
 
         return http.build();
     }

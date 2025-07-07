@@ -1,12 +1,88 @@
-<h1>Agenda tu cita</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reuniones - Agendar Cita</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3a8dde, #6f42c1); /* Degradado azul-morado */
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        label, select, input {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        select, input[type="date"], input[type="time"] {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        button {
+            background: #ffffff;
+            color: #3a8dde;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background: #d1c4e9;
+            color: #6f42c1;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Agendar cita con psicólogo</h1>
+
 <form action="/detalles" method="post">
-    <select name="nombre">
-        <option th:each="psico : ${psicologos}" th:text="${psico.nombre}" th:value="${psico.nombre}"></option>
+    <label for="nombre">Selecciona el psicólogo:</label>
+    <select name="nombre" id="nombre" required>
+        <option value="" disabled selected>-- Selecciona uno --</option>
+        <option th:each="psico : ${psicologos}" th:value="${psico.nombre}" th:text="${psico.nombre}"></option>
     </select>
-    <select name="especialidad">
-        <option th:each="psico : ${psicologos}" th:text="${psico.especialidad}" th:value="${psico.especialidad}"></option>
+
+    <label for="especialidad">Especialidad:</label>
+    <select name="especialidad" id="especialidad" required>
+        <option value="" disabled selected>-- Selecciona una --</option>
+        <option th:each="psico : ${psicologos}" th:value="${psico.especialidad}" th:text="${psico.especialidad}"></option>
     </select>
-    <input type="date" name="fecha" required>
-    <input type="time" name="hora" required>
-    <button type="submit" th:href="@{/detalles}">Agendar cita</button>
+
+    <label for="fecha">Fecha de la cita:</label>
+    <input type="date" name="fecha" id="fecha" required>
+
+    <label for="hora">Hora de la cita:</label>
+    <input type="time" name="hora" id="hora" required>
+
+    <button type="submit">Agendar cita</button>
 </form>
+
+</body>
+</html>
